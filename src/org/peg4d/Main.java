@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.TreeMap;
 
 import org.peg4d.data.RelationBuilder;
+import org.peg4d.ext.Generator;
 import org.peg4d.jvm.JavaByteCodeGenerator;
 import org.peg4d.konoha.KSourceGenerator;
 import org.peg4d.konoha.SweetJSGenerator;
@@ -329,19 +330,20 @@ public class Main {
 	}
 
 	private static void launchPegVMIfSupported() {
-		String value = System.getenv("NEZ_RUNTIME");
-		if(!"PEGVM".equalsIgnoreCase(value) && !"peg_vm".equalsIgnoreCase(value)) {
+		String pegvmPath = System.getenv("PEGVM_PATH");
+		if(pegvmPath == null || pegvmPath.isEmpty()) {
 			return;
 		}
 
 		// convert to peg vm byte code
-		String bytecodeFileName = GrammarFile.substring(0, GrammarFile.indexOf('.')) + ".bin";
+		pegvmPath = pegvmPath.startsWith("~") ? System.getenv("HOME") + pegvmPath.substring(1) : pegvmPath;
+		String bytecodeFileName = GrammarFile.substring(0, GrammarFile.lastIndexOf('.')) + ".bin";
 		OutputFileName = bytecodeFileName;
 		PegVMByteCodeGeneration = true;
 		conv();
 
 		// launch peg vm
-		ProcessBuilder pBuilder = new ProcessBuilder("pegvm", "-t", "json", bytecodeFileName, InputFileName);
+		ProcessBuilder pBuilder = new ProcessBuilder(pegvmPath, "-t", "json", "-p", bytecodeFileName, InputFileName);
 		pBuilder.inheritIO();
 		try {
 			int status = pBuilder.start().waitFor();
@@ -378,6 +380,8 @@ public class Main {
 			KSourceGenerator generator = new SweetJSGenerator();
 			generator.visit(pego);
 			System.out.println(generator.toString());
+		} else if(OutputType != null && OutputType.equalsIgnoreCase("json")) {
+			new Generator(OutputFileName).writeJSON(pego);
 		}else{
 			outputMap(pego);
 			return;
