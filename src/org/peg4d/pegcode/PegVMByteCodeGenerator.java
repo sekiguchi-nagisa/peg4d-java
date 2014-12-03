@@ -62,7 +62,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	HashMap<String, Integer> callMap = new HashMap<String, Integer>();
 	
 	public void writeByteCode(String grammerfileName, String outputFileName) {
-		//System.out.println("choiceCase: " + choiceCaseCount + "\nconstructor: " + constructorCount);
+		////System.out.println("choiceCase: " + choiceCaseCount + "\nconstructor: " + constructorCount);
 		byte[] byteCode = new byte[codeList.size() * 64];
 		int pos = 0;
 		// Version of the specification (2 byte)
@@ -176,7 +176,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 		
 		try {
 			if (outputFileName == null) {
-				System.out.println("unspecified outputfile");
+				//System.out.println("unspecified outputfile");
 				System.exit(0);
 			}
 			FileOutputStream fos = new FileOutputStream(outputFileName);
@@ -193,14 +193,14 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	
 	private Opcode newCode(Instruction inst) {
 		Opcode code = new Opcode(inst);
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
 	
 	private Opcode newCode(Instruction inst, int ndata) {
 		Opcode code = new Opcode(inst).append(ndata);
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
@@ -208,7 +208,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	private Opcode newCode(Instruction inst, int ndata1, int jump) {
 		Opcode code = new Opcode(inst).append(ndata1);
 		code.jump = jump;
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
@@ -216,21 +216,21 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	private Opcode newCode(Instruction inst, int ndata1, int ndata2, int jump) {
 		Opcode code = new Opcode(inst).append(ndata1).append(ndata2);
 		code.jump = jump;
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
 	
 	private Opcode newCode(Instruction inst, String name) {
 		Opcode code = new Opcode(inst, name);
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
 	
 	private Opcode newCode(Instruction inst, int ndata, String name) {
 		Opcode code = new Opcode(inst, name).append(ndata);
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
@@ -238,7 +238,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	private Opcode newJumpCode(Instruction inst, int jump) {
 		Opcode code = new Opcode(inst);
 		code.jump = jump;
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		return code;
 	}
@@ -283,7 +283,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 		FailurePoint fLabel = this.fLabel;
 		this.fLabel = this.fLabel.prev;
 		labelMap.put(fLabel.id, codeIndex);
-		System.out.println("L" + fLabel.id);
+		//System.out.println("L" + fLabel.id);
 		return fLabel.id;
 	}
 	
@@ -291,7 +291,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 		FailurePoint fLabel = this.fLabel;
 		this.fLabel = this.fLabel.prev;
 		labelMap.put(fLabel.id, codeIndex);
-		System.out.println("L" + fLabel.id);
+		//System.out.println("L" + fLabel.id);
 		return fLabel.id;
 	}
 	
@@ -311,7 +311,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	
 	private final void writeLabel(int label) {
 		labelMap.put(label, codeIndex);
-		System.out.println("L" + label);
+		//System.out.println("L" + label);
 	}
 	
 	private final void writeJumpCode(Instruction inst, int labelId) {
@@ -337,7 +337,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 			code.append(((ParsingByte)e.get(i)).byteChar);
 		}
 		code.jump = this.jumpFailureJump();
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		codeList.add(code);
 		//writeJumpCode(Instruction.IFFAIL, this.jumpFailureJump());
@@ -377,7 +377,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 			code.append(((ParsingByte)e.get(i)).byteChar);
 		}
 		code.jump = this.jumpFailureJump();
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		codeList.add(code);
 	}
@@ -400,7 +400,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 			code.append(((ParsingByte)e.get(i)).byteChar);
 		}
 		code.jump = this.jumpFailureJump();
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		codeList.add(code);
 	}
@@ -411,7 +411,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 			code.append(((ParsingByte)e.get(i)).byteChar);
 		}
 		code.jump = this.jumpFailureJump();
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		codeList.add(code);
 	}
@@ -435,7 +435,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 		Opcode code = new Opcode(Instruction.ZEROMOREBYTERANGE);
 		code.append(e.startByteChar);
 		code.append(e.endByteChar);
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		codeList.add(code);
 	}
@@ -445,7 +445,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 		for(int i = 0; i < e.size(); i++) {
 			code.append(((ParsingByte)e.get(i)).byteChar);
 		}
-		System.out.println("\t" + code.toString());
+		//System.out.println("\t" + code.toString());
 		this.codeIndex++;
 		codeList.add(code);
 	}
@@ -521,7 +521,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 				}
 			}
 			Opcode code = new Opcode(Instruction.MAPPEDCHOICE);
-			System.out.println("\t" + code.toString());
+			//System.out.println("\t" + code.toString());
 			codeList.add(code);
 			this.codeIndex++;
 			HashMap<ParsingExpression, Integer> choiceMap = new HashMap<ParsingExpression, Integer>();
@@ -619,35 +619,35 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 
 	@Override
 	public void formatHeader() {
-		System.out.println("\nGenerate Byte Code\n");
+		//System.out.println("\nGenerate Byte Code\n");
 		writeCode(Instruction.EXIT);
 	}
 	
 	@Override
 	public void formatFooter() {
-		System.out.println();
+		//System.out.println();
 		for (int i = 0; i < codeList.size(); i++) {
 			Opcode code = codeList.ArrayValues[i];
 			if (code.isJumpCode()) {
 				switch (code.inst) {
 				case CALL:
 					code.jump = this.callMap.get(code.name);
-					System.out.println("[" + i + "] " + code + " " + code.jump);
+					////System.out.println("[" + i + "] " + code + " " + code.jump);
 					break;
 				case RET:
-					System.out.println("[" + i + "] " + code);
+					//System.out.println("[" + i + "] " + code);
 					break;
 				case EXIT:
-					System.out.println("[" + i + "] " + code);
+					//System.out.println("[" + i + "] " + code);
 					break;
 				default:
 					code.jump = this.labelMap.get(code.jump);
-					System.out.println("[" + i + "] " + code);
+					//System.out.println("[" + i + "] " + code);
 					break;
 				}
 			}
 			else {
-				System.out.println("[" + i + "] " + code);
+				//System.out.println("[" + i + "] " + code);
 			}
 		}
 	}
@@ -660,7 +660,7 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 	@Override
 	public void visitRule(ParsingRule e) {
 		this.callMap.put(e.ruleName, this.codeIndex);
-		System.out.println(e.ruleName + ":");
+		//System.out.println(e.ruleName + ":");
 		this.pushFailureJumpPoint();
 		e.expr.visit(this);
 		this.popFailureJumpPoint(e);

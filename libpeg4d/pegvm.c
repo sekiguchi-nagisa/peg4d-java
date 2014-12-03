@@ -125,8 +125,9 @@ int main(int argc, char * const argv[])
         if (file == NULL) {
             assert(0 && "can not open file");
         }
-        dump_json_file(file, &context.left, context.inputs, 0);
-        fclose(file);
+        //dump_json_file(file, &context.left, context.inputs, 0);
+        dump_json_file(stdout, &context.left, context.inputs, 0);
+        //fclose(file);
     }
     destroy_pool(&pool);
     ParsingContext_Dispose(&context);
