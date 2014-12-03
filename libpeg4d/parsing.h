@@ -197,7 +197,7 @@ void write_json_object(FILE *file, ParsingObject *pego, char* source, int level)
 void dump_json_file(FILE *file, ParsingObject *pego, char* source, int level)
 {
     fprintf(file, "{\n" );
-    fprintf(file, " \"tag\": \"%s\", \"value\": ", pego[0]->tag);
+    fprintf(file, " \"tag\": \"%s\", \"value\": ", pego[0]->tag + 1);
     write_json(file, pego, source, level+1);
     fprintf(file, "\n}");
 }
@@ -244,7 +244,7 @@ void write_json_array(FILE *file, ParsingObject *pego, char* source, int level)
         fprintf(file, "{");
         fprintf(file, "\n");
         write_json_indent(file, level + 2);
-        fprintf(file, "\"tag\": \"%s\", \"value\": ", pego[0]->child[i]->tag);
+        fprintf(file, "\"tag\": \"%s\", \"value\": ", pego[0]->child[i]->tag + 1);
         write_json(file, &pego[0]->child[i], source, level + 3);
         fprintf(file, "\n");
         write_json_indent(file, level + 1);
@@ -266,7 +266,7 @@ void write_json_object(FILE *file, ParsingObject *pego, char* source, int level)
             for (int i = 0; i < pego[0]->child_size; i++) {
                 fprintf(file, "\n");
                 write_json_indent(file, level + 1);
-                fprintf(file, "\"%s\": ", pego[0]->child[i]->tag);
+                fprintf(file, "\"tag\": \"%s\", \"value\": ", pego[0]->child[i]->tag + 1);
                 write_json(file, &pego[0]->child[i], source, level + 2);
                 if (i+1 < pego[0]->child_size) {
                         fprintf(file, ",");
