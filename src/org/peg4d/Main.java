@@ -327,8 +327,25 @@ public class Main {
 		boolean res = context.match(peg, StartingPoint, new MemoizationManager());
 		System.exit(res ? 0 : 1);
 	}
-	
+
+	private static void launchPegVMIfSupported() {
+		String bytecodeFileName = GrammarFile.substring(0, GrammarFile.indexOf('.')) + ".bin";
+		String value = System.getenv("NEZ_RUNTIME");
+		if("PEGVM".equalsIgnoreCase(value) || "peg_vm".equalsIgnoreCase(value)) {	// launch peg vm
+			ProcessBuilder pBuilder = new ProcessBuilder("pegvm", "-t", "json", bytecodeFileName, InputFileName);
+			pBuilder.inheritIO();
+			try {
+				int status = pBuilder.start().waitFor();
+				System.exit(status);
+			} catch (InterruptedException | IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return;
+	}
+
 	public static void parse() {
+		launchPegVMIfSupported();
 		Grammar peg = newGrammar();
 		Main.printVerbose("Grammar", peg.getName());
 		Main.printVerbose("StartingPoint", StartingPoint);
