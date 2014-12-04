@@ -120,11 +120,11 @@ int main(int argc, char * const argv[])
         if(execute(&context, inst, &pool)) {
             peg_error("parse error");
         }
-        FILE *file;
-        file = fopen(output_file, "w");
-        if (file == NULL) {
-            assert(0 && "can not open file");
-        }
+//        FILE *file;
+//        file = fopen(output_file, "w");
+//        if (file == NULL) {
+//            assert(0 && "can not open file");
+//        }
         //dump_json_file(file, &context.left, context.inputs, 0);
         dump_json_file(stdout, &context.left, context.inputs, 0);
         //fclose(file);
