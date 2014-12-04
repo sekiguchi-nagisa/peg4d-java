@@ -912,17 +912,20 @@ public class PegVMByteCodeGenerator extends GrammarFormatter {
 
 	@Override
 	public void visitIfFlag(ParsingIf e) {
-		throw new RuntimeException("unimplemented visit method: " + e.getClass());
+		//throw new RuntimeException("unimplemented visit method: " + e.getClass());
+		// do nothing
 	}
 
 	@Override
 	public void visitWithFlag(ParsingWithFlag e) {
-		throw new RuntimeException("unimplemented visit method: " + e.getClass());
+		//throw new RuntimeException("unimplemented visit method: " + e.getClass());
+		e.inner.visit(this);
 	}
 
 	@Override
 	public void visitWithoutFlag(ParsingWithoutFlag e) {
-		throw new RuntimeException("unimplemented visit method: " + e.getClass());
+		//throw new RuntimeException("unimplemented visit method: " + e.getClass());
+		e.inner.visit(this);
 	}
 
 	@Override
