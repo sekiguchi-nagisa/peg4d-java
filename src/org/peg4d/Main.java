@@ -340,7 +340,13 @@ public class Main {
 		String bytecodeFileName = GrammarFile.substring(0, GrammarFile.lastIndexOf('.')) + ".bin";
 		OutputFileName = bytecodeFileName;
 		PegVMByteCodeGeneration = true;
-		conv();
+		try {
+			conv();
+		} catch(RuntimeException e) {
+			OutputFileName = null;
+			PegVMByteCodeGeneration = false;
+			return;
+		}
 
 		// launch peg vm
 		ProcessBuilder pBuilder = new ProcessBuilder(pegvmPath, "-t", "json", "-p", bytecodeFileName, InputFileName);

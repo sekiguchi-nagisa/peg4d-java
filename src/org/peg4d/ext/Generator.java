@@ -230,7 +230,11 @@ public class Generator {
 	
 	
 	public final void writeJSON(ParsingObject pego) {
-		writeJSON("", "", pego);
+		String indent = TAB;
+		write("", "", "{");
+		write(LF, indent, "\"tag\": \"" + pego.getTag() + "\", \"value\": ");
+		writeJSON("", indent, pego);
+		write(LF, "", "}");
 		close();
 	}
 
@@ -250,50 +254,60 @@ public class Generator {
 		else {
 			String text = pego.getText();
 			text = Utils.quoteString('"', text, '"');
-			write(lf, "", text);
+			write("", "", text);
 		}
 	}
 	
 	private boolean isJSONArray(ParsingObject pego) {
-		UMap<Counter> schema =  new UMap<Counter>();
-		for(int i = 0; i < pego.size(); i++) {
-			ParsingObject p = pego.get(i);
-			String tag = p.getTag().toString();
-			Counter c = schema.get(tag);
-			if(c != null) { // found duplicated
-				return true;
-			}
-			c = new Counter();
-			schema.put(tag, c);
-		}
-		return false;
+//		UMap<Counter> schema =  new UMap<Counter>();
+//		for(int i = 0; i < pego.size(); i++) {
+//			ParsingObject p = pego.get(i);
+//			String tag = p.getTag().toString();
+//			Counter c = schema.get(tag);
+//			if(c != null) { // found duplicated
+//				return true;
+//			}
+//			c = new Counter();
+//			schema.put(tag, c);
+//		}
+//		return false;
+		return pego.size() > 1;
 	}
 	
 	private void writeJSONArray(String lf, String indent, ParsingObject pego) {
-		write(lf, "", "[");
+		write("", "", "[");
 		String nindent = TAB + indent;
 		for(int i = 0; i < pego.size(); i++) {
 			ParsingObject p = pego.get(i);
-			writeJSON(LF + nindent, nindent, p);
+			write(LF, nindent, "{");
+			write(LF, nindent + TAB, "\"tag\": \"" + p.getTag() + "\", \"value\": ");
+			writeJSON(LF + nindent + TAB, nindent + TAB, p);
+			write(LF, nindent, "}");
 			if(i + 1 < pego.size()) {
-				write(",");
+				write("", "", ",");
 			}
 		}
 		write(LF, indent, "]");
 	}
 	
 	private void writeJSONObject(String lf, String indent, ParsingObject pego) {
-		write(lf, "", "{");
-		String nindent = TAB + indent;
-		for(int i = 0; i < pego.size(); i++) {
-			ParsingObject p = pego.get(i);
-			write(LF, nindent, "\"" + p.getTag() + "\": ");
-			writeJSON("", nindent, p);
-			if(i + 1 < pego.size()) {
-				write(",");
+		if(pego.size() > 0){
+			write(lf, "", "{");
+			String nindent = TAB + indent;
+			for(int i = 0; i < pego.size(); i++) {
+				ParsingObject p = pego.get(i);
+				write(LF, nindent, "\"tag\": \"" + p.getTag() + "\", \"value\": ");
+				writeJSON("", nindent, p);
+				if(i + 1 < pego.size()) {
+					write("", "", ",");
+				}
 			}
+			write(LF, indent, "}");
+		} else {
+			String text = pego.getText();
+			text = Utils.quoteString('"', text, '"');
+			write(lf, "", text);
 		}
-		write(LF, indent, "}");
 	}
 	
 	
